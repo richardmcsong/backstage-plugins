@@ -1,0 +1,16 @@
+.gitattributes
+apis/Api.client.ts
+apis/index.ts
+docs/DefaultApi.md
+index.ts
+models/CreateUserRequest.model.ts
+models/Expires.model.ts
+models/ModelError.model.ts
+models/User.model.ts
+models/UserAPIKeyAuth.model.ts
+models/UserKey.model.ts
+models/UserKeyList.model.ts
+models/index.ts
+pluginId.ts
+types/discovery.ts
+types/fetch.ts
