@@ -15,17 +15,29 @@ jobs:
     if: github.event_name == 'issues'
     runs-on: ubuntu-latest
     steps:
-    - uses: github/issue-labeler@c1b0f9f52a63158c4adc09425e858e87b32e9685 #v3.4
-      with:
-        configuration-path: .github/labeler.yml
-        enable-versioned-regex: 0
-        repo-token: ${{ secrets.GH_SERVICE_ACCOUNT_TOKEN }}
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          # required
+          app-id: 2436851
+          private-key: ${{ secrets.GH_SERVICE_ACCOUNT_TOKEN }}
+      - uses: github/issue-labeler@c1b0f9f52a63158c4adc09425e858e87b32e9685 #v3.4
+        with:
+          configuration-path: .github/labeler.yml
+          enable-versioned-regex: 0
+          repo-token: ${{ steps.app-token.outputs.token }}
 
   label-prs:
     if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/labeler@v5
-      with:
-        configuration-path: .github/pr-labeler.yml
-        repo-token: ${{ secrets.GH_SERVICE_ACCOUNT_TOKEN }}
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          # required
+          app-id: 2436851
+          private-key: ${{ secrets.GH_SERVICE_ACCOUNT_TOKEN }}
+      - uses: actions/labeler@v5
+        with:
+          configuration-path: .github/pr-labeler.yml
+          repo-token: ${{ secrets.GH_SERVICE_ACCOUNT_TOKEN }}
