@@ -25,6 +25,9 @@
     "new": "backstage-cli new --scope @backstage-community",
     "postinstall": "cd ../../ && yarn install"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "workspaces": {
     "packages": [
       "packages/*",
@@ -33,7 +36,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/backstage/community-plugins",
+    "url": "https://github.com/richardmcsong/backstage-plugins",
     "directory": "workspaces/litellm-orchestrator"
   },
   "devDependencies": {

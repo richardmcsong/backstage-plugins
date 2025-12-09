@@ -32,70 +32,8 @@ Although the community repository isn't technically a yarn workspace", it functi
 
 Whenever a new changeset is introduced, a fresh "Version packages ($workspace_name)" PR is produced. Merging a Version packages PR will trigger the release of all the plugins in the workspaces (provided changesets have been added), and also update the `CHANGELOG` files.
 
-## Plugins migrated from `backstage/backstage`
+## Initial Setup of a new backstage-plugins repository.
 
-A number of plugins that originally resided in `backstage/backstage` monorepo have moved to this `backstage/community-plugins` repository.
-
-<details>
-<summary>List of migrated plugins</summary>
-
-- `adr`
-- `airbreak`
-- `allure`
-- `analytics`
-- `apache-airflow`
-- `apollo-explorer`
-- `azure-devops`
-- `azure-sites`
-- `badges`
-- `bazaar`
-- `bitrise`
-- `cicd-statistics`
-- `cloudbuild`
-- `code-climate`
-- `code-coverage`
-- `codescene`
-- `cost-insights`
-- `dynatrace`
-- `entity-feedback`
-- `entity-validation`
-- `example-todo-list`
-- `explore`
-- `firehydrant`
-- `fossa`
-- `gcalendar`
-- `gcp-projects`
-- `git-release-manager`
-- `github-actions`
-- `github-deployments`
-- `github-issues`
-- `github-pull-requests-board`
-- `gitops-profiles`
-- `gocd`
-- `graphiql`
-- `graphql-voyager`
-- `ilert`
-- `jenkins`
-- `kafka`
-- `lighthouse`
-- `microsoft-calendar`
-- `newrelic`
-- `newrelic-dashboard`
-- `octopus-deploy`
-- `opencost`
-- `periskop`
-- `playlist`
-- `puppetdb`
-- `rollbar`
-- `sentry`
-- `shortcuts`
-- `sonarqube`
-- `splunk`
-- `stack-overflow`
-- `stackstorm`
-- `tech-insights`
-- `tech-radar`
-- `todo`
-- `vault`
-- `xcmetrics`
-</details>
+1. Edit `.github/workflows/upgrade-dashboard.yml` to look at a newly created issue.
+2. Create `${{ secrets.GH_SERVICE_ACCOUNT_TOKEN }}`. The app should have issues, PRs, contents R+W
+3. Change workflow permissions to read and write in github settings
