@@ -202,6 +202,9 @@ components:
       title: User keys
       description: A user's keys
     UserAPIKeyAuth:
+      type: object
+      title: UserAPIKeyAuth
+      description: Return the row in the db
       properties:
         token:
           anyOf:
@@ -371,6 +374,7 @@ components:
             - additionalProperties: true
               type: object
             - type: "null"
+          title: Object Permission
         rotation_count:
           anyOf:
             - type: integer
@@ -450,6 +454,7 @@ components:
             - additionalProperties: true
               type: object
             - type: "null"
+          title: Team Member
         team_metadata:
           anyOf:
             - additionalProperties: true
@@ -531,6 +536,7 @@ components:
           anyOf:
             - type: string
             - type: "null"
+          title: User Role
         allowed_model_region:
           anyOf:
             - type: string
@@ -578,9 +584,6 @@ components:
             - type: string
             - type: "null"
           title: Request Route
-      type: object
-      title: UserAPIKeyAuth
-      description: Return the row in the db
     UserKey:
       type: object
       properties:
