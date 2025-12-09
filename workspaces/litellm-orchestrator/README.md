@@ -31,6 +31,7 @@ This workspace contains two plugins:
 1. Install dependencies:
 
 ```sh
+
 yarn install
 ```
 
@@ -50,29 +51,30 @@ liteLLM:
 
 ```bash
 # Install frontend plugin
-yarn --cwd packages/app add @backstage-community/plugin-litellm-orchestrator
+yarn --cwd packages/app add @richardmcsong/plugin-litellm-orchestrator
 
 # Install backend plugin
-yarn --cwd packages/backend add @backstage-community/plugin-litellm-orchestrator-backend
+yarn --cwd packages/backend add @richardmcsong/plugin-litellm-orchestrator-backend
 ```
 
 4. Add the plugins to your Backstage app:
 
-**Frontend** (`packages/app/src/App.tsx`):
+**Frontend** (`app-config.yaml`):
 
-```tsx
-import { litellmOrchestratorPlugin } from '@backstage-community/plugin-litellm-orchestrator';
-
-// Add to your app extensions
+```yml
+app:
+  packages: all
+  # or
+  packages:
+    include:
+      - "@richardmcsong/plugin-litellm-orchestrator"
 ```
 
 **Backend** (`packages/backend/src/index.ts`):
 
 ```ts
-import { litellmOrchestratorPlugin } from '@backstage-community/plugin-litellm-orchestrator-backend';
-
 const backend = createBackend();
-backend.add(litellmOrchestratorPlugin());
+backend.add(import('@backstage-community/plugin-litellm-orchestrator-backend'));
 ```
 
 ### Development
