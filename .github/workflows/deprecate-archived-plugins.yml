@@ -1,0 +1,30 @@
+name: Deprecate Archived Plugins
+
+on:
+  push:
+    paths:
+      - '.github/archived-plugins.json'
+    branches:
+      - main
+
+jobs:
+  deprecate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: 2436851
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Deprecate packages
+        run: ./scripts/ci/deprecate-archived-plugins.sh
+        env:
+          NODE_AUTH_TOKEN: ${{ steps.app-token.outputs.token }}
+          NPM_CONFIG_REGISTRY: https://registry.npmjs.org

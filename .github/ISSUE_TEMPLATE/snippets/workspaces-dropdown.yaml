@@ -1,0 +1,10 @@
+type: dropdown
+id: workspace
+attributes:
+  label: Workspace
+  options:
+    - "Select a workspace..."
+    - litellm-orchestrator
+  default: 0
+validations:
+  required: true

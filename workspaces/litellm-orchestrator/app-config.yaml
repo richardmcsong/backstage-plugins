@@ -1,0 +1,28 @@
+# Backstage override configuration for your local development environment
+
+auth:
+  providers:
+    guest:
+      userEntityRef: user:default/john-smith
+      ownershipEntityRefs: [group:default/smith-family]
+
+app:
+  title: Litellm Orchestrator
+  packages: all
+  baseUrl: http://localhost:3000
+
+backend:
+  baseUrl: http://localhost:7007
+  cors:
+    origin: http://localhost:3000
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+
+liteLLM:
+  baseUrl: http://localhost:4000
+  masterKey: sk-asdf
+  adminGroup: ADMIN_GROUP
+  allowedGroup: ALLOWED_GROUP
+  userDefaults:
+    maxBudget: 100
+    budgetDuration: 1mo

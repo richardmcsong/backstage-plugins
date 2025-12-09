@@ -1,0 +1,31 @@
+name: PR
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
+  issue_comment:
+    types:
+      - created
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    # Avoid running on issue comments
+    if: github.repository == 'richardmcsong/backstage-plugins' && ( github.event.pull_request || github.event.issue.pull_request )
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
+
+      - name: PR sync
+        uses: richardmcsong/actions/pr-sync@main
+        with:
+          app-id: 2436851
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          installation-id: 98806020
+          # project-id: PVT_kwDOBFKqdc4AmjVD
+          auto-assign: false
