@@ -45,6 +45,6 @@ jobs:
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: 4593,
+              issue_number: 1,
               body: dashboardContent
             });
