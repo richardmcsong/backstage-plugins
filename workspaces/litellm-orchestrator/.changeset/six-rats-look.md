@@ -3,4 +3,4 @@
 '@richardmcsong/plugin-litellm-orchestrator': minor
 ---
 
-Added JIT create for users that do not exist, and throws an error if user not in allowedGroup
+Added JIT create for users that do not exist, and throws an error if user not in allowedGroup.
