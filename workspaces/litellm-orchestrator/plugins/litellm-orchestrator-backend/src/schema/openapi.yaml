@@ -20,18 +20,18 @@ paths:
               required:
                 - userId
       responses:
-        "201":
+        '201':
           description: User created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
-        "401":
+                $ref: '#/components/schemas/User'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /users/{userId}:
     get:
       operationId: getUser
@@ -42,18 +42,18 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: User found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
-        "404":
+                $ref: '#/components/schemas/User'
+        '404':
           description: User not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /users/{userId}/keys:
     post:
       operationId: createUserKey
@@ -69,30 +69,30 @@ paths:
             schema:
               type: object
       responses:
-        "201":
+        '201':
           description: User key created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserKey"
-        "401":
+                $ref: '#/components/schemas/UserKey'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: User not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     get:
       operationId: getUserKeys
       parameters:
@@ -102,18 +102,18 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: User keys found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserKeyList"
-        "404":
+                $ref: '#/components/schemas/UserKeyList'
+        '404':
           description: User keys not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /users/{userId}/keys/{keyId}:
     delete:
       operationId: deleteUserKey
@@ -129,26 +129,26 @@ paths:
           schema:
             type: string
       responses:
-        "204":
+        '204':
           description: User key deleted
-        "401":
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: User key not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Error:
@@ -185,7 +185,7 @@ components:
         keys:
           type: array
           items:
-            $ref: "#/components/schemas/UserAPIKeyAuth"
+            $ref: '#/components/schemas/UserAPIKeyAuth'
       required:
         - keys
       title: User keys
@@ -195,17 +195,17 @@ components:
         token:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Token
         key_name:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Key Name
         key_alias:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Key Alias
         spend:
           type: number
@@ -214,14 +214,14 @@ components:
         max_budget:
           anyOf:
             - type: number
-            - type: "null"
+            - type: 'null'
           title: Max Budget
         expires:
           anyOf:
             - type: string
             - type: string
               format: date-time
-            - type: "null"
+            - type: 'null'
           title: Expires
         models:
           items: {}
@@ -241,17 +241,17 @@ components:
         user_id:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: User Id
         team_id:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Team Id
         max_parallel_requests:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: Max Parallel Requests
         metadata:
           additionalProperties: true
@@ -261,36 +261,36 @@ components:
         tpm_limit:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: Tpm Limit
         rpm_limit:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: Rpm Limit
         budget_duration:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Budget Duration
         budget_reset_at:
           anyOf:
             - type: string
               format: date-time
-            - type: "null"
+            - type: 'null'
           title: Budget Reset At
         allowed_cache_controls:
           anyOf:
             - items: {}
               type: array
-            - type: "null"
+            - type: 'null'
           title: Allowed Cache Controls
           default: []
         allowed_routes:
           anyOf:
             - items: {}
               type: array
-            - type: "null"
+            - type: 'null'
           title: Allowed Routes
           default: []
         permissions:
@@ -315,104 +315,104 @@ components:
         blocked:
           anyOf:
             - type: boolean
-            - type: "null"
+            - type: 'null'
           title: Blocked
         litellm_budget_table:
           anyOf:
             - additionalProperties: true
               type: object
-            - type: "null"
+            - type: 'null'
           title: Litellm Budget Table
         org_id:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Org Id
         created_at:
           anyOf:
             - type: string
               format: date-time
-            - type: "null"
+            - type: 'null'
           title: Created At
         created_by:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Created By
         updated_at:
           anyOf:
             - type: string
               format: date-time
-            - type: "null"
+            - type: 'null'
           title: Updated At
         updated_by:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Updated By
         object_permission_id:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Object Permission Id
         object_permission:
           anyOf:
             - additionalProperties: true
               type: object
-            - type: "null"
+            - type: 'null'
         rotation_count:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: Rotation Count
           default: 0
         auto_rotate:
           anyOf:
             - type: boolean
-            - type: "null"
+            - type: 'null'
           title: Auto Rotate
           default: false
         rotation_interval:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Rotation Interval
         last_rotation_at:
           anyOf:
             - type: string
               format: date-time
-            - type: "null"
+            - type: 'null'
           title: Last Rotation At
         key_rotation_at:
           anyOf:
             - type: string
               format: date-time
-            - type: "null"
+            - type: 'null'
           title: Key Rotation At
         team_spend:
           anyOf:
             - type: number
-            - type: "null"
+            - type: 'null'
           title: Team Spend
         team_alias:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Team Alias
         team_tpm_limit:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: Team Tpm Limit
         team_rpm_limit:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: Team Rpm Limit
         team_max_budget:
           anyOf:
             - type: number
-            - type: "null"
+            - type: 'null'
           title: Team Max Budget
         team_models:
           items: {}
@@ -426,146 +426,146 @@ components:
         soft_budget:
           anyOf:
             - type: number
-            - type: "null"
+            - type: 'null'
           title: Soft Budget
         team_model_aliases:
           anyOf:
             - additionalProperties: true
               type: object
-            - type: "null"
+            - type: 'null'
           title: Team Model Aliases
         team_member:
           anyOf:
             - additionalProperties: true
               type: object
-            - type: "null"
+            - type: 'null'
         team_metadata:
           anyOf:
             - additionalProperties: true
               type: object
-            - type: "null"
+            - type: 'null'
           title: Team Metadata
         team_object_permission_id:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Team Object Permission Id
         team_member_spend:
           anyOf:
             - type: number
-            - type: "null"
+            - type: 'null'
           title: Team Member Spend
         team_member_tpm_limit:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: Team Member Tpm Limit
         team_member_rpm_limit:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: Team Member Rpm Limit
         end_user_id:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: End User Id
         end_user_tpm_limit:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: End User Tpm Limit
         end_user_rpm_limit:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: End User Rpm Limit
         end_user_max_budget:
           anyOf:
             - type: number
-            - type: "null"
+            - type: 'null'
           title: End User Max Budget
         organization_max_budget:
           anyOf:
             - type: number
-            - type: "null"
+            - type: 'null'
           title: Organization Max Budget
         organization_tpm_limit:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: Organization Tpm Limit
         organization_rpm_limit:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: Organization Rpm Limit
         organization_metadata:
           anyOf:
             - additionalProperties: true
               type: object
-            - type: "null"
+            - type: 'null'
           title: Organization Metadata
         last_refreshed_at:
           anyOf:
             - type: number
-            - type: "null"
+            - type: 'null'
           title: Last Refreshed At
         api_key:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Api Key
         user_role:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
         allowed_model_region:
           anyOf:
             - type: string
               enum:
                 - eu
                 - us
-            - type: "null"
+            - type: 'null'
           title: Allowed Model Region
         parent_otel_span:
           anyOf:
             - {}
-            - type: "null"
+            - type: 'null'
           title: Parent Otel Span
         rpm_limit_per_model:
           anyOf:
             - additionalProperties:
                 type: integer
               type: object
-            - type: "null"
+            - type: 'null'
           title: Rpm Limit Per Model
         tpm_limit_per_model:
           anyOf:
             - additionalProperties:
                 type: integer
               type: object
-            - type: "null"
+            - type: 'null'
           title: Tpm Limit Per Model
         user_tpm_limit:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: User Tpm Limit
         user_rpm_limit:
           anyOf:
             - type: integer
-            - type: "null"
+            - type: 'null'
           title: User Rpm Limit
         user_email:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: User Email
         request_route:
           anyOf:
             - type: string
-            - type: "null"
+            - type: 'null'
           title: Request Route
       type: object
       title: UserAPIKeyAuth
