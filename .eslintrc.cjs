@@ -24,7 +24,7 @@ module.exports = {
     '.eslintrc.cjs',
     '**/schema/openapi/*',
     '**/upstream/*',
-    'scripts/*',
+    '**/scripts/*',
   ],
   rules: {
     'notice/notice': [
