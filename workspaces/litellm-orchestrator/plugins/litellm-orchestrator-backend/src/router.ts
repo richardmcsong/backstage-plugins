@@ -27,7 +27,7 @@ import {
 } from '@backstage/errors';
 // eslint-disable-next-line @backstage/no-undeclared-imports
 import express from 'express';
-import { createOpenApiRouter, spec } from './schema/openapi';
+import { createOpenApiRouter } from './schema/openapi';
 import { userServiceRef } from './services/UserService';
 import { keyServiceRef } from './services/KeyService';
 import { UserInfoService } from '@backstage/backend-plugin-api';
@@ -44,12 +44,6 @@ export async function createRouter({
   keyService: typeof keyServiceRef.T;
 }): Promise<express.Router> {
   const router = await createOpenApiRouter();
-  router.use(express.json());
-  // serve the openapi schema
-  router.get('/openapi.yaml', (_req, res) => {
-    res.send(JSON.stringify(spec, null, 2));
-  });
-
   router.post('/users', async (req, res, next) => {
     let credentials: Awaited<ReturnType<typeof httpAuth.credentials>>;
     let currentUser: BackstageUserInfo;

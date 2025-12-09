@@ -46,14 +46,8 @@ describe('createRouter', () => {
         },
       },
     });
-    userService = UserService.create({
-      logger: mockServices.rootLogger(),
-      config: config,
-    });
-    keyService = KeyService.create({
-      logger: mockServices.rootLogger(),
-      config: config,
-    });
+    userService = UserService.create(config);
+    keyService = KeyService.create(config);
     userService.createUser = jest.fn().mockResolvedValue({
       userId: 'user:default/test',
       liteLLMUserId: 'test',

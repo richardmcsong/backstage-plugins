@@ -22,11 +22,13 @@ module.exports = {
   ignorePatterns: [
     '.eslintrc.js',
     '.eslintrc.cjs',
-    '**/schema/openapi/*',
+    // '**/schema/openapi/*',
     '**/upstream/*',
     '**/scripts/*',
   ],
   rules: {
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'off',
     'notice/notice': [
       'error',
       {

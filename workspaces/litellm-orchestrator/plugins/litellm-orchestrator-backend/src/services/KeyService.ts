@@ -17,11 +17,11 @@ import {
   coreServices,
   createServiceFactory,
   createServiceRef,
-  LoggerService,
   BackstageUserInfo,
 } from '@backstage/backend-plugin-api';
 import { RootConfigService } from '@backstage/backend-plugin-api';
 import { Utils } from '../utils/utils';
+// eslint-disable-next-line @backstage/no-undeclared-imports
 import { NotAllowedError, NotFoundError } from '@backstage/errors';
 import {
   generateKeyFnKeyGeneratePost,
@@ -34,17 +34,13 @@ import { UserAPIKeyAuth } from '../schema/openapi/generated/models/UserAPIKeyAut
 /**
  * This class provides a service for managing LiteLLM Orchestrator users.
  *
- * @property #logger - The logger service.
- * @property #storedUsers - The stored users.
  */
 export class KeyService {
-  readonly #logger: LoggerService;
   readonly #utils: Utils;
-  static create(options: { logger: LoggerService; config: RootConfigService }) {
-    return new KeyService(options.logger, options.config);
+  static create(config: RootConfigService) {
+    return new KeyService(config);
   }
-  private constructor(logger: LoggerService, config: RootConfigService) {
-    this.#logger = logger;
+  private constructor(config: RootConfigService) {
     this.#utils = new Utils(config);
   }
   async createKey(
@@ -147,12 +143,9 @@ export const keyServiceRef = createServiceRef<KeyService>({
   defaultFactory: async service =>
     createServiceFactory({
       service,
-      deps: { logger: coreServices.logger, config: coreServices.rootConfig },
+      deps: { config: coreServices.rootConfig },
       async factory(deps) {
-        return KeyService.create({
-          logger: deps.logger,
-          config: deps.config,
-        });
+        return KeyService.create(deps.config);
       },
     }),
 });

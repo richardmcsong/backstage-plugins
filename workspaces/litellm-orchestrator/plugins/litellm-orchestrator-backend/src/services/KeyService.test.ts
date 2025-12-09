@@ -55,10 +55,7 @@ describe('keyService', () => {
   );
   const mockDeleteKeyFnKeyDeletePost = jest.mocked(deleteKeyFnKeyDeletePost);
   beforeEach(() => {
-    keyService = KeyService.create({
-      logger: mockServices.rootLogger(),
-      config: mockServices.rootConfig(),
-    });
+    keyService = KeyService.create(mockServices.rootConfig());
   });
   afterEach(() => {
     jest.clearAllMocks();

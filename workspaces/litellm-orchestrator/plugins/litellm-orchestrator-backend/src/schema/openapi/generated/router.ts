@@ -33,24 +33,6 @@ export const spec = {
     },
   ],
   paths: {
-    '/openapi.yaml': {
-      get: {
-        operationId: 'getOpenApiSchema',
-        responses: {
-          '200': {
-            description: 'OpenAPI schema',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'string',
-                  format: 'binary',
-                },
-              },
-            },
-          },
-        },
-      },
-    },
     '/users': {
       post: {
         operationId: 'createUser',

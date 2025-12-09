@@ -39,6 +39,10 @@ export const litellmOrchestratorPlugin = createBackendPlugin({
         keyService: keyServiceRef,
       },
       async init({ httpAuth, httpRouter, userInfo, userService, keyService }) {
+        httpRouter.addAuthPolicy({
+          path: '/openapi.json',
+          allow: 'unauthenticated',
+        });
         httpRouter.use(
           await createRouter({
             httpAuth,

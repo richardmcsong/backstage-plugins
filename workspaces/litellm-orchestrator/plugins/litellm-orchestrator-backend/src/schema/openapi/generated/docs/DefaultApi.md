@@ -2,14 +2,13 @@
 
 All URIs are relative to _http://localhost_
 
-| Method                                                 | HTTP request                            | Description |
-| ------------------------------------------------------ | --------------------------------------- | ----------- |
-| [**createUser**](DefaultApi.md#createUser)             | **POST** /users                         |
-| [**createUserKey**](DefaultApi.md#createUserKey)       | **POST** /users/{userId}/keys           |
-| [**deleteUserKey**](DefaultApi.md#deleteUserKey)       | **DELETE** /users/{userId}/keys/{keyId} |
-| [**getOpenApiSchema**](DefaultApi.md#getOpenApiSchema) | **GET** /openapi.yaml                   |
-| [**getUser**](DefaultApi.md#getUser)                   | **GET** /users/{userId}                 |
-| [**getUserKeys**](DefaultApi.md#getUserKeys)           | **GET** /users/{userId}/keys            |
+| Method                                           | HTTP request                            | Description |
+| ------------------------------------------------ | --------------------------------------- | ----------- |
+| [**createUser**](DefaultApi.md#createUser)       | **POST** /users                         |
+| [**createUserKey**](DefaultApi.md#createUserKey) | **POST** /users/{userId}/keys           |
+| [**deleteUserKey**](DefaultApi.md#deleteUserKey) | **DELETE** /users/{userId}/keys/{keyId} |
+| [**getUser**](DefaultApi.md#getUser)             | **GET** /users/{userId}                 |
+| [**getUserKeys**](DefaultApi.md#getUserKeys)     | **GET** /users/{userId}/keys            |
 
 # **createUser**
 
@@ -167,49 +166,6 @@ No authorization required
 | **401**     | Unauthorized       | -                |
 | **403**     | Forbidden          | -                |
 | **404**     | User key not found | -                |
-
-[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
-
-# **getOpenApiSchema**
-
-> HttpFile getOpenApiSchema()
-
-### Example
-
-```typescript
-import { createConfiguration, DefaultApi } from '';
-
-const configuration = createConfiguration();
-const apiInstance = new DefaultApi(configuration);
-
-const request = {};
-
-const data = await apiInstance.getOpenApiSchema(request);
-console.log('API called successfully. Returned data:', data);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**HttpFile**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description    | Response headers |
-| ----------- | -------------- | ---------------- |
-| **200**     | OpenAPI schema | -                |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 

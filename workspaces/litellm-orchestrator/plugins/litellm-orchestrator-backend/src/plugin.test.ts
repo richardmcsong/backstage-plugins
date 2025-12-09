@@ -14,18 +14,9 @@
  * limitations under the License.
  */
 
-import {
-  mockCredentials,
-  mockServices,
-  startTestBackend,
-  TestBackend,
-} from '@backstage/backend-test-utils';
-import { createServiceFactory } from '@backstage/backend-plugin-api';
-import { userServiceRef } from './services/UserService';
+import { mockServices, startTestBackend } from '@backstage/backend-test-utils';
 import { litellmOrchestratorPlugin } from './plugin';
 import request from 'supertest';
-import { catalogServiceMock } from '@backstage/plugin-catalog-node/testUtils';
-import { Server } from 'http';
 
 // TEMPLATE NOTE:
 // Plugin tests are integration tests for your plugin, ensuring that all pieces

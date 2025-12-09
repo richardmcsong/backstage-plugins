@@ -17,7 +17,6 @@ import {
   coreServices,
   createServiceFactory,
   createServiceRef,
-  LoggerService,
   BackstageUserInfo,
 } from '@backstage/backend-plugin-api';
 import { RootConfigService } from '@backstage/backend-plugin-api';
@@ -37,15 +36,13 @@ import { Utils } from '../utils/utils';
  * @property #storedUsers - The stored users.
  */
 export class UserService {
-  readonly #logger: LoggerService;
   readonly #utils: Utils;
-  static create(options: { logger: LoggerService; config: RootConfigService }) {
-    return new UserService(options.logger, options.config);
+  static create(config: RootConfigService) {
+    return new UserService(config);
   }
 
-  private constructor(logger: LoggerService, config: RootConfigService) {
+  private constructor(config: RootConfigService) {
     this.#utils = new Utils(config);
-    this.#logger = logger;
   }
 
   /**
@@ -162,14 +159,10 @@ export const userServiceRef = createServiceRef<UserService>({
     createServiceFactory({
       service,
       deps: {
-        logger: coreServices.logger,
         config: coreServices.rootConfig,
       },
       async factory(deps) {
-        return UserService.create({
-          logger: deps.logger,
-          config: deps.config,
-        });
+        return UserService.create(deps.config);
       },
     }),
 });

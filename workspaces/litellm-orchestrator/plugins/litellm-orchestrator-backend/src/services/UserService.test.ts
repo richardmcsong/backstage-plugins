@@ -63,12 +63,7 @@ describe('UserService', () => {
     mockUtils.isAdmin.mockReturnValue(false);
     mockUtils.isSelf.mockReturnValue(true);
     config = mockServices.rootConfig();
-    userService = UserService.create({
-      logger: mockServices.rootLogger({
-        level: 'debug',
-      }),
-      config: config,
-    });
+    userService = UserService.create(config);
 
     // Default mock implementation
     mockNewUserUserNewPost.mockResolvedValue({
