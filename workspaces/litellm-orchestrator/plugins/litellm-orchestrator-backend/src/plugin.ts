@@ -35,18 +35,50 @@ export const litellmOrchestratorPlugin = createBackendPlugin({
         httpAuth: coreServices.httpAuth,
         httpRouter: coreServices.httpRouter,
         userInfo: coreServices.userInfo,
+        config: coreServices.rootConfig,
+        scheduler: coreServices.scheduler,
+        logger: coreServices.logger,
+        catalog: coreServices.catalog,
         userService: userServiceRef,
         keyService: keyServiceRef,
       },
-      async init({ httpAuth, httpRouter, userInfo, userService, keyService }) {
+      async init({
+        httpAuth,
+        httpRouter,
+        userInfo,
+        config,
+        scheduler,
+        logger,
+        catalog,
+        userService,
+        keyService,
+      }) {
         httpRouter.use(
           await createRouter({
             httpAuth,
             userInfo,
             userService,
             keyService,
+            config,
           }),
         );
+
+        // Register background cleanup task
+        await scheduler.scheduleTask({
+          id: 'litellm-orchestrator-cleanup',
+          frequency: { minutes: 5 },
+          timeout: { minutes: 5 },
+          fn: async () => {
+            const { CleanupService } = await import('./services/CleanupService');
+            const cleanupService = CleanupService.create({
+              logger,
+              config,
+              catalog,
+              userService,
+            });
+            await cleanupService.cleanupUsers();
+          },
+        });
       },
     });
   },

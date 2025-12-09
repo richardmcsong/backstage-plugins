@@ -27,7 +27,12 @@ import {
   NotFoundError,
 } from '@backstage/errors';
 import { User } from '../schema/openapi/generated/models/User.model';
-import { newUserUserNewPost, userInfoUserInfoGet } from '../upstream/sdk.gen';
+import {
+  newUserUserNewPost,
+  userInfoUserInfoGet,
+  getUsersUserListGet,
+  deleteUserUserDeletePost,
+} from '../upstream/sdk.gen';
 import { Utils } from '../utils/utils';
 /**
  * This class provides a service for managing LiteLLM Orchestrator users.
@@ -152,6 +157,53 @@ export class UserService {
       spend: response.data.user_info.spend as number,
     };
     return user;
+  }
+
+  /**
+   * Lists all LiteLLM users.
+   * @returns Array of user IDs
+   */
+  async listAllUsers(): Promise<string[]> {
+    const response = await getUsersUserListGet({
+      client: this.#utils.client,
+    });
+
+    if (!response.data || !response.response.ok) {
+      throw new Error(
+        `Failed to list users: no response data, response status: ${response.response.status}`,
+      );
+    }
+
+    if (!response.data.users) {
+      return [];
+    }
+
+    return response.data.users
+      .map(user => user.user_id)
+      .filter((userId): userId is string => userId !== null && userId !== undefined);
+  }
+
+  /**
+   * Deletes one or more LiteLLM users.
+   * @param userIds - Array of user IDs to delete
+   */
+  async deleteUsers(userIds: string[]): Promise<void> {
+    if (userIds.length === 0) {
+      return;
+    }
+
+    const response = await deleteUserUserDeletePost({
+      client: this.#utils.client,
+      body: {
+        user_ids: userIds,
+      },
+    });
+
+    if (!response.response.ok) {
+      throw new Error(
+        `Failed to delete users: response status: ${response.response.status}`,
+      );
+    }
   }
 }
 
