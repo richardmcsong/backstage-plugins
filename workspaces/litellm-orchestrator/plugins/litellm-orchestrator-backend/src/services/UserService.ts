@@ -21,6 +21,7 @@ import {
   BackstageUserInfo,
 } from '@backstage/backend-plugin-api';
 import { RootConfigService } from '@backstage/backend-plugin-api';
+// eslint-disable-next-line @backstage/no-undeclared-imports
 import {
   ConflictError,
   NotAllowedError,

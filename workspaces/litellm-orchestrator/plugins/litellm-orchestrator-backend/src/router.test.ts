@@ -15,6 +15,7 @@
  */
 
 import { mockCredentials, mockServices } from '@backstage/backend-test-utils';
+// eslint-disable-next-line @backstage/no-undeclared-imports
 import express from 'express';
 import request from 'supertest';
 

@@ -17,7 +17,6 @@
 import { mockServices } from '@backstage/backend-test-utils';
 import { UserService } from './UserService';
 import { newUserUserNewPost, userInfoUserInfoGet } from '../upstream/sdk.gen';
-import { Utils } from '../utils/utils';
 import { BackstageUserInfo } from '@backstage/backend-plugin-api';
 
 // Mock the SDK function

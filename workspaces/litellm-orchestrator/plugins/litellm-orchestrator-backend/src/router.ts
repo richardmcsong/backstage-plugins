@@ -18,12 +18,14 @@ import {
   BackstageUserInfo,
   HttpAuthService,
 } from '@backstage/backend-plugin-api';
+// eslint-disable-next-line @backstage/no-undeclared-imports
 import {
   AuthenticationError,
   ConflictError,
   NotAllowedError,
   NotFoundError,
 } from '@backstage/errors';
+// eslint-disable-next-line @backstage/no-undeclared-imports
 import express from 'express';
 import { createOpenApiRouter, spec } from './schema/openapi';
 import { userServiceRef } from './services/UserService';

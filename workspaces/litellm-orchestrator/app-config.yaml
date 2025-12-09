@@ -22,6 +22,7 @@ liteLLM:
   baseUrl: http://localhost:4000
   masterKey: sk-asdf
   adminGroup: ADMIN_GROUP
+  allowedGroup: ALLOWED_GROUP
   userDefaults:
     maxBudget: 100
     budgetDuration: 1mo

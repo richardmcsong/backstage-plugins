@@ -15,28 +15,78 @@
  */
 
 import { Grid } from '@material-ui/core';
-import { Header, Page, Content, HeaderLabel } from '@backstage/core-components';
+import {
+  Header,
+  Page,
+  Content,
+  HeaderLabel,
+  ResponseErrorPanel,
+  Progress,
+} from '@backstage/core-components';
 import { UserOverviewComponent } from '../UserOverviewComponent';
 import { UserKeyListComponent } from '../UserKeyListComponent';
+import { DefaultApiClient } from '../../schema/openapi';
+import {
+  configApiRef,
+  discoveryApiRef,
+  fetchApiRef,
+  identityApiRef,
+  useApi,
+} from '@backstage/core-plugin-api';
+import useAsync from 'react-use/lib/useAsync';
 
-export const LitellmOrchestratorPage = () => (
-  <Page themeId="tool">
-    <Header
-      title="Welcome to litellm-orchestrator!"
-      subtitle="This page will help you manage your litellm-orchestrator"
-    >
-      <HeaderLabel label="Owner" value="Team X" />
-      <HeaderLabel label="Lifecycle" value="Alpha" />
-    </Header>
-    <Content>
-      <Grid container spacing={3} direction="column">
-        <Grid item>
-          <UserOverviewComponent />
+export const LitellmOrchestratorPage = () => {
+  const discoveryApi = useApi(discoveryApiRef);
+  const fetchApi = useApi(fetchApiRef);
+  const identityApi = useApi(identityApiRef);
+  const defaultApi = new DefaultApiClient({ discoveryApi, fetchApi });
+  const configApi = useApi(configApiRef);
+  const { loading, error } = useAsync(async (): Promise<void> => {
+    const currentUser = await identityApi.getBackstageIdentity();
+    const allowedGroup = configApi.getString('liteLLM.allowedGroup');
+    if (
+      !currentUser ||
+      !currentUser.ownershipEntityRefs.includes(allowedGroup)
+    ) {
+      throw new Error('You are not allowed to access this page');
+    }
+    const response = await defaultApi.getUser({
+      path: {
+        userId: currentUser.userEntityRef,
+      },
+    });
+    if (response.status === 404) {
+      await defaultApi.createUser({
+        body: {
+          userId: currentUser.userEntityRef,
+        },
+      });
+    }
+  });
+  if (loading) {
+    return <Progress />;
+  } else if (error) {
+    return <ResponseErrorPanel error={error} />;
+  }
+  return (
+    <Page themeId="tool">
+      <Header
+        title="Welcome to litellm-orchestrator!"
+        subtitle="This page will help you manage your litellm-orchestrator"
+      >
+        <HeaderLabel label="Owner" value="Team X" />
+        <HeaderLabel label="Lifecycle" value="Alpha" />
+      </Header>
+      <Content>
+        <Grid container spacing={3} direction="column">
+          <Grid item>
+            <UserOverviewComponent />
+          </Grid>
+          <Grid item>
+            <UserKeyListComponent />
+          </Grid>
         </Grid>
-        <Grid item>
-          <UserKeyListComponent />
-        </Grid>
-      </Grid>
-    </Content>
-  </Page>
-);
+      </Content>
+    </Page>
+  );
+};
