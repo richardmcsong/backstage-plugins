@@ -24,7 +24,9 @@
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "new": "backstage-cli new --scope @backstage-community",
-    "postinstall": "cd ../../ && yarn install"
+    "postinstall": "cd ../../ && yarn install",
+    "update-schema": "node plugins/litellm-orchestrator-backend/scripts/update-userapikeyauth-schema.js",
+    "openapi:generate": "yarn update-schema && cd plugins/litellm-orchestrator-backend && backstage-repo-tools package schema openapi generate --client-package plugins/litellm-orchestrator && backstage-repo-tools package schema openapi generate --server"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
