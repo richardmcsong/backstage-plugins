@@ -8,6 +8,7 @@
   "scripts": {
     "start": "backstage-cli repo start",
     "dev": "yarn workspaces foreach -A --include @richardmcsong/plugin-litellm-orchestrator --include @richardmcsong/plugin-litellm-orchestrator-backend --parallel -v -i run start",
+    "publish:all": "yarn workspaces foreach -A --include @richardmcsong/plugin-litellm-orchestrator --include @richardmcsong/plugin-litellm-orchestrator-backend npm publish",
     "tsc": "tsc",
     "tsc:full": "tsc --skipLibCheck false --incremental false",
     "build:all": "backstage-cli repo build --all",

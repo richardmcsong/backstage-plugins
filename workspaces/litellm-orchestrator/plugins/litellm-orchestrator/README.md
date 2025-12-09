@@ -1,13 +1,52 @@
 # litellm-orchestrator
 
-Welcome to the litellm-orchestrator plugin!
+A Backstage frontend plugin for managing LiteLLM orchestrator users and API keys.
 
-_This plugin was created through the Backstage CLI_
+## Features
 
-## Getting started
+- **User Overview**: View and manage LiteLLM users directly from Backstage
+- **API Key Management**: Create, view, and delete API keys for LiteLLM users
+- **Integrated Experience**: Seamlessly manage your LiteLLM infrastructure within Backstage
 
-Your plugin has been added to the example app in this repository, meaning you'll be able to access it by running `yarn start` in the root directory, and then navigating to [/litellm-orchestrator](http://localhost:3000/litellm-orchestrator).
+## Installation
 
-You can also serve the plugin in isolation by running `yarn start` in the plugin directory.
-This method of serving the plugin provides quicker iteration speed and a faster startup and hot reloads.
-It is only meant for local development, and the setup for it can be found inside the [/dev](./dev) directory.
+This plugin is installed via the `@backstage-community/plugin-litellm-orchestrator` package. To install it to your Backstage app, run the following command:
+
+```bash
+# From your root directory
+yarn --cwd packages/app add @backstage-community/plugin-litellm-orchestrator
+```
+
+Then ensure the package is added in the `app-config.yaml`:
+
+```yml
+app:
+  packages: all
+  # or
+  packages:
+    include:
+      - "@richardmcsong/plugin-litellm-orchestrator"
+```
+
+## Configuration
+
+The plugin requires the corresponding backend plugin to be installed and configured. See the [backend plugin README](../litellm-orchestrator-backend/README.md) for backend setup instructions.
+
+## Development
+
+You can serve the plugin in isolation for local development by running `yarn start` in this directory. This provides quicker iteration speed and faster startup with hot reloads.
+
+The standalone development setup can be found in the [/dev](./dev) directory.
+
+To run the entire project, including the frontend and backend, run `yarn start` from the workspace root directory.
+
+## Components
+
+- **LitellmOrchestratorPage**: Main page component that displays the user overview and key management interface
+- **UserOverviewComponent**: Displays user information and details
+- **UserKeyListComponent**: Manages API keys with create, view, and delete functionality
+- **KeyMaterialModal**: Modal dialog for displaying newly created API keys
+
+## License
+
+This plugin is licensed under the Apache-2.0 License.

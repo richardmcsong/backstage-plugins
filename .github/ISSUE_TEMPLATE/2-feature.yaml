@@ -1,6 +1,6 @@
 name: 🚀 Plugin Feature
 description: Submit a proposal for a new feature in a plugin
-title: '🚀 <Plugin>: <Title>'
+title: "🚀 <Plugin>: <Title>"
 labels:
   - enhancement
 body:
@@ -14,111 +14,7 @@ body:
       label: Workspace
       options:
         - Select a workspace...
-        - 3scale
-        - acr
-        - acs
-        - adr
-        - agent-forge
-        - airbrake
-        - allure
-        - amplication
-        - analytics
-        - announcements
-        - apache-airflow
-        - apollo-explorer
-        - azure-devops
-        - azure-resources
-        - azure-sites
-        - azure-storage-explorer
-        - badges
-        - bazaar
-        - bitbucket-pull-requests
-        - bitrise
-        - blackduck
-        - bookmarks
-        - cicd-statistics
-        - cloudbuild
-        - code-climate
-        - code-coverage
-        - codescene
-        - confluence
-        - copilot
-        - cost-insights
-        - dynatrace
-        - entity-feedback
-        - entity-validation
-        - explore
-        - feedback
-        - firehydrant
-        - flux
-        - fossa
-        - gcalendar
-        - gcp-projects
-        - git-release-manager
-        - github-actions
-        - github-deployments
-        - github-discussions
-        - github-issues
-        - github-pull-requests-board
-        - gitops-profiles
-        - gocd
-        - grafana
-        - graphiql
-        - graphql-voyager
-        - ilert
-        - jaeger
-        - jenkins
-        - jfrog-artifactory
-        - kafka
-        - keycloak
-        - kiali
-        - lighthouse
-        - linguist
-        - linkerd
-        - manage
-        - matomo
-        - mcp-chat
-        - mend
-        - microsoft-calendar
-        - mta
-        - multi-source-security-viewer
-        - newrelic
-        - nexus-repository-manager
-        - nomad
-        - npm
-        - ocm
-        - octopus-deploy
-        - opencost
-        - periskop
-        - pingidentity
-        - playlist
-        - puppetdb
-        - quay
-        - rbac
-        - redhat-argocd
-        - report-portal
-        - rollbar
-        - scaffolder-backend-module-annotator
-        - scaffolder-backend-module-kubernetes
-        - scaffolder-backend-module-regex
-        - scaffolder-backend-module-servicenow
-        - scaffolder-backend-module-sonarqube
-        - scaffolder-relation-processor
-        - sentry
-        - servicenow
-        - shortcuts
-        - sonarqube
-        - splunk
-        - stack-overflow
-        - stackstorm
-        - tech-insights
-        - tech-radar
-        - tekton
-        - todo
-        - topology
-        - vault
-        - wheel-of-names
-        - xcmetrics
+        - litellm-orchestrator
       default: 0
     validations:
       required: true
