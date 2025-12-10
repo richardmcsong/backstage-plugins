@@ -1,5 +1,11 @@
 # @richardmcsong/plugin-litellm-orchestrator-backend
 
+## 0.2.1
+
+### Patch Changes
+
+- 773c3bb: Publish publicly
+
 ## 0.2.0
 
 ### Minor Changes
