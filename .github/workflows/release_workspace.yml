@@ -166,7 +166,7 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: publish
         run: |
-          yarn config set -H 'npmAuthToken' "${{steps.app-token.outputs.token}}"
+          yarn config set -H 'npmScopes.richardmcsong.npmAuthToken' "${{steps.app-token.outputs.token}}"
           yarn workspaces foreach -W -v --no-private npm publish --access public --provenance --tolerate-republish
         env:
           NODE_AUTH_TOKEN: ${{ steps.app-token.outputs.token }}
