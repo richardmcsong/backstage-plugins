@@ -182,7 +182,7 @@ jobs:
       # CHANGED: Publish with tag "maintenance" to avoid overwriting the latest npm tag
       - name: publish
         run: |
-          yarn config set -H 'npmAuthToken' "${{steps.app-token.outputs.token}}"
+          yarn config set -H 'npmScopes.richardmcsong.npmAuthToken' "${{steps.app-token.outputs.token}}"
           yarn workspaces foreach -v --no-private npm publish --access public --provenance --tolerate-republish --tag "maintenance"
         env:
           NODE_AUTH_TOKEN: ${{ steps.app-token.outputs.token }}
