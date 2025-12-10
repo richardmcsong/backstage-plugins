@@ -13,7 +13,6 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
-
     # Avoid running on issue comments
     if: github.repository == 'richardmcsong/backstage-plugins' && ( github.event.pull_request || github.event.issue.pull_request )
     steps:
