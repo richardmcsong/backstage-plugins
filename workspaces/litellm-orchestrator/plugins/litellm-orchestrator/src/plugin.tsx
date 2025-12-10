@@ -47,6 +47,10 @@ export const litellmOrchestratorNavItem = NavItemBlueprint.make({
   },
 });
 
+/**
+ * litellmOrchestrator frontend plugin
+ * @public
+ */
 export const litellmOrchestratorPlugin = createFrontendPlugin({
   pluginId: 'litellm-orchestrator',
   extensions: [litellmOrchestratorPage, litellmOrchestratorNavItem],
