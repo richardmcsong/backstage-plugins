@@ -1,5 +1,8 @@
 workspace/litellm-orchestrator:
   - "Workspace\\s*litellm-orchestrator"
 
+workspace/src:
+  - "Workspace\\s*src"
+
 needs-triaging:
   - "Workspace\\s*Select a workspace..."

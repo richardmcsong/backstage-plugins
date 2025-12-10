@@ -1,6 +1,6 @@
 name: 🚀 Plugin Feature
 description: Submit a proposal for a new feature in a plugin
-title: "🚀 <Plugin>: <Title>"
+title: '🚀 <Plugin>: <Title>'
 labels:
   - enhancement
 body:
@@ -15,6 +15,7 @@ body:
       options:
         - Select a workspace...
         - litellm-orchestrator
+        - src
       default: 0
     validations:
       required: true

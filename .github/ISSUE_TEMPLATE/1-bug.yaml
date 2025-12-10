@@ -1,6 +1,6 @@
 name: 🐛 Plugin Bug Report
 description: Submit a plugin bug report to help us improve
-title: "🐛 <Plugin>: <Title>"
+title: '🐛 <Plugin>: <Title>'
 labels:
   - bug
 body:
@@ -14,6 +14,7 @@ body:
       options:
         - Select a workspace...
         - litellm-orchestrator
+        - src
       default: 0
     validations:
       required: true
