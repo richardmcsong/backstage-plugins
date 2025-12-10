@@ -11,6 +11,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "repository": {
+    "access": "public",
     "type": "git",
     "url": "https://github.com/richardmcsong/backstage-plugins",
     "directory": "workspaces/litellm-orchestrator/plugins/litellm-orchestrator-backend"
