@@ -43,7 +43,7 @@ jobs:
           marker: <!-- changeset-feedback -->
           issue-number: ${{ github.event.pull_request.number }}
           bot-username: backstage-goalie[bot]
-          app-id: ${{ secrets.BACKSTAGE_GOALIE_APPLICATION_ID }}
-          private-key: ${{ secrets.BACKSTAGE_GOALIE_PRIVATE_KEY }}
-          installation-id: ${{ secrets.BACKSTAGE_GOALIE_INSTALLATION_ID }}
+          app-id: 2436851
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          installation-id: 98806020
           multiple-workspaces: true

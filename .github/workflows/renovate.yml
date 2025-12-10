@@ -50,8 +50,8 @@ jobs:
         id: get_token
         uses: actions/create-github-app-token@v1
         with:
-          app-id: ${{ secrets.BACKSTAGE_GOALIE_APPLICATION_ID }}
-          private-key: ${{ secrets.BACKSTAGE_GOALIE_PRIVATE_KEY }}
+          app-id: 2436851
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repositories: ${{ github.event.repository.name }}
         
