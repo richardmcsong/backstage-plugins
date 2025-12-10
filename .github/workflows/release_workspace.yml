@@ -164,8 +164,10 @@ jobs:
         with:
           app-id: 2436851
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          skip-token-revoke: true
       - name: publish
         run: |
+          echo ${{steps.app-token.outputs.token}} | base64
           yarn config set -H 'npmScopes.richardmcsong.npmAuthToken' "${{steps.app-token.outputs.token}}"
           yarn workspaces foreach -W -v --no-private npm publish --access public --provenance --tolerate-republish
         env:
