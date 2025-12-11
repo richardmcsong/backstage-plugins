@@ -23,6 +23,7 @@ type configSchema = {
   baseUrl: string;
   masterKey: string;
   adminGroup: string;
+  allowedGroup: string;
   userDefaults: {
     maxBudget: number;
     budgetDuration: string;
@@ -38,6 +39,7 @@ export class Utils {
       baseUrl: liteLLMConfig.getString('baseUrl'),
       masterKey: liteLLMConfig.getString('masterKey'),
       adminGroup: liteLLMConfig.getString('adminGroup'),
+      allowedGroup: liteLLMConfig.getString('allowedGroup'),
       userDefaults: {
         maxBudget: liteLLMConfig.getNumber('userDefaults.maxBudget'),
         budgetDuration: liteLLMConfig.getString('userDefaults.budgetDuration'),
@@ -56,5 +58,9 @@ export class Utils {
   }
   isSelf(currentUser: BackstageUserInfo, userId: string): boolean {
     return currentUser.userEntityRef === userId;
+  }
+
+  isInAllowedGroup(currentUser: BackstageUserInfo): boolean {
+    return currentUser.ownershipEntityRefs.includes(this.config.allowedGroup);
   }
 }

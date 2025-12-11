@@ -30,6 +30,7 @@ describe('Utils', () => {
         data: {
           liteLLM: {
             adminGroup: 'ADMIN_GROUP',
+            allowedGroup: 'ALLOWED_GROUP',
             baseUrl: 'http://localhost:8080',
             masterKey: 'sk-asdf',
             userDefaults: {
@@ -53,5 +54,12 @@ describe('Utils', () => {
   });
   it('should return false if the current user is not the same as the user id', () => {
     expect(utils.isSelf(defaultUser, 'user:default/other')).toBe(false);
+  });
+  it('should return true if the current user is in the allowed group', () => {
+    const currentUser = {
+      ...defaultUser,
+      ownershipEntityRefs: ['ALLOWED_GROUP'],
+    } as BackstageUserInfo;
+    expect(utils.isInAllowedGroup(currentUser)).toBe(true);
   });
 });

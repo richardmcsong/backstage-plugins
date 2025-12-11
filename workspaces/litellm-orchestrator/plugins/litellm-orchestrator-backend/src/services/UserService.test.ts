@@ -18,6 +18,7 @@ import { mockServices } from '@backstage/backend-test-utils';
 import { UserService } from './UserService';
 import { newUserUserNewPost, userInfoUserInfoGet } from '../upstream/sdk.gen';
 import { BackstageUserInfo } from '@backstage/backend-plugin-api';
+import { ConflictError, NotFoundError } from '@backstage/errors';
 
 // Mock the SDK function
 jest.mock('../upstream/sdk.gen', () => ({
@@ -30,6 +31,7 @@ const mockUtils = {
   ...realUtils.Utils,
   isAdmin: jest.fn(),
   isSelf: jest.fn(),
+  isInAllowedGroup: jest.fn(),
   config: {
     userDefaults: {
       maxBudget: 100,
@@ -63,7 +65,7 @@ describe('UserService', () => {
     mockUtils.isAdmin.mockReturnValue(false);
     mockUtils.isSelf.mockReturnValue(true);
     config = mockServices.rootConfig();
-    userService = UserService.create(config);
+    userService = UserService.create(config, mockServices.logger.mock());
 
     // Default mock implementation
     mockNewUserUserNewPost.mockResolvedValue({
@@ -226,6 +228,95 @@ describe('UserService', () => {
       });
     });
   });
+  describe('ensureUserExistsAndAuthorized', () => {
+    it('should do nothing if the user is an admin and already exists', async () => {
+      mockUtils.isAdmin.mockReturnValue(true);
+      mockUserInfoUserInfoGet.mockResolvedValueOnce({
+        data: {
+          user_info: {
+            user_id: 'user:default/test',
+          } as any,
+        } as any,
+        ...baseRequest,
+      });
+
+      await userService.ensureUserExistsAndAuthorized({
+        userEntityRef: 'user:default/test',
+        ownershipEntityRefs: [],
+      });
+
+      expect(mockUserInfoUserInfoGet).toHaveBeenCalledWith(
+        expect.objectContaining({
+          query: {
+            user_id: 'user:default/test',
+          },
+        }),
+      );
+      expect(mockNewUserUserNewPost).not.toHaveBeenCalled();
+    });
+
+    it('should create the user if they are in an allowed group and do not exist', async () => {
+      mockUtils.isInAllowedGroup.mockReturnValue(true);
+      mockUserInfoUserInfoGet.mockRejectedValue(new NotFoundError('Not Found'));
+
+      await userService.ensureUserExistsAndAuthorized({
+        userEntityRef: 'user:default/test',
+        ownershipEntityRefs: [],
+      });
+
+      expect(mockNewUserUserNewPost).toHaveBeenCalledWith(
+        expect.objectContaining({
+          body: expect.objectContaining({
+            user_id: 'user:default/test',
+          }),
+        }),
+      );
+    });
+
+    it('should create the user if they are an admin and do not exist', async () => {
+      mockUtils.isAdmin.mockReturnValue(true);
+      mockUserInfoUserInfoGet.mockRejectedValue(new NotFoundError('Not Found'));
+
+      await userService.ensureUserExistsAndAuthorized({
+        userEntityRef: 'user:default/test',
+        ownershipEntityRefs: [],
+      });
+
+      expect(mockNewUserUserNewPost).toHaveBeenCalledWith(
+        expect.objectContaining({
+          body: expect.objectContaining({
+            user_id: 'user:default/test',
+          }),
+        }),
+      );
+    });
+
+    it('should throw an error if the user is not authorized', async () => {
+      mockUtils.isAdmin.mockReturnValue(false);
+      mockUtils.isInAllowedGroup.mockReturnValue(false);
+
+      await expect(
+        userService.ensureUserExistsAndAuthorized({
+          userEntityRef: 'user:default/test',
+          ownershipEntityRefs: [],
+        }),
+      ).rejects.toThrow('You are not authorized to access this plugin');
+    });
+
+    it('should handle race conditions where the user is created by another request', async () => {
+      mockUtils.isAdmin.mockReturnValue(true);
+      mockUserInfoUserInfoGet.mockRejectedValue(new NotFoundError('Not Found'));
+      mockNewUserUserNewPost.mockRejectedValue(new ConflictError('Conflict'));
+
+      await userService.ensureUserExistsAndAuthorized({
+        userEntityRef: 'user:default/test',
+        ownershipEntityRefs: [],
+      });
+
+      expect(mockNewUserUserNewPost).toHaveBeenCalled();
+    });
+  });
+
   describe('getUser', () => {
     it('should return the correct user if found', async () => {
       mockUserInfoUserInfoGet.mockResolvedValue({
