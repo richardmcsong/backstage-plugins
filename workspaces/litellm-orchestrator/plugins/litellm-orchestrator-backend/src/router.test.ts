@@ -56,6 +56,9 @@ describe('createRouter', () => {
       createdAt: new Date().toISOString(),
       adminGroup: 'TEST_ADMIN_GROUP',
     });
+    userService.ensureUserExistsAndAuthorized = jest
+      .fn()
+      .mockResolvedValue(undefined);
     app = wrapInOpenApiTestServer(
       express().use(
         await createRouter({
