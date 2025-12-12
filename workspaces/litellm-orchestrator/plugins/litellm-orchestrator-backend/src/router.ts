@@ -44,6 +44,45 @@ export async function createRouter({
   keyService: typeof keyServiceRef.T;
 }): Promise<express.Router> {
   const router = await createOpenApiRouter();
+
+  router.use(async (req, res, next) => {
+    // This middleware is not applied to the openapi.yaml endpoint, so we can
+    // safely assume that we need to authenticate the user.
+    let credentials: Awaited<ReturnType<typeof httpAuth.credentials>>;
+    let currentUser: BackstageUserInfo;
+    try {
+      // Validate authentication (401 if not authenticated)
+      credentials = await httpAuth.credentials(req, { allow: ['user'] });
+      currentUser = await userInfo.getUserInfo(credentials);
+    } catch (error) {
+      if (error instanceof AuthenticationError) {
+        res.status(401).json({
+          name: 'AuthenticationError',
+          message: 'Authentication required',
+        });
+      } else {
+        next(error);
+      }
+      return;
+    }
+
+    try {
+      await userService.ensureUserExistsAndAuthorized(currentUser);
+    } catch (error) {
+      if (error instanceof NotAllowedError) {
+        res.status(403).json({
+          name: 'NotAllowedError',
+          message: 'You are not authorized to access this plugin',
+        });
+      } else {
+        next(error);
+      }
+      return;
+    }
+
+    next();
+  });
+
   router.post('/users', async (req, res, next) => {
     let credentials: Awaited<ReturnType<typeof httpAuth.credentials>>;
     let currentUser: BackstageUserInfo;

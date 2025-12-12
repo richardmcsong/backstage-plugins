@@ -21,6 +21,7 @@ import { DiscoveryApi } from '@backstage/core-plugin-api';
 import { FetchApi } from '@backstage/core-plugin-api';
 import { IdentityApi } from '@backstage/core-plugin-api';
 import { DefaultApiClient } from '../../schema/openapi/generated/apis/Api.client';
+import { handleApiResponse } from '../../utils/api';
 
 export type DeleteButtonProps = {
   selectedRows: GridRowSelectionModel;
@@ -70,12 +71,13 @@ export const DeleteButton = ({
           await Promise.all(
             tokens.map(async token => {
               try {
-                await defaultApi.deleteUserKey({
+                const response = await defaultApi.deleteUserKey({
                   path: {
                     userId,
                     keyId: token as string,
                   },
                 });
+                await handleApiResponse(response);
               } catch (error) {
                 // eslint-disable-next-line no-console
                 console.error(`Failed to delete key ${token}:`, error);

@@ -15,6 +15,7 @@
  */
 
 import { mockCredentials, mockServices } from '@backstage/backend-test-utils';
+import { NotAllowedError } from '@backstage/errors';
 // eslint-disable-next-line @backstage/no-undeclared-imports
 import express from 'express';
 import request from 'supertest';
@@ -39,6 +40,7 @@ describe('createRouter', () => {
           baseUrl: 'http://localhost:4000',
           masterKey: 'sk-asdf',
           adminGroup: 'TEST_ADMIN_GROUP',
+          allowedGroup: 'user:default/test',
           userDefaults: {
             maxBudget: 100,
             budgetDuration: '1mo',
@@ -46,7 +48,7 @@ describe('createRouter', () => {
         },
       },
     });
-    userService = UserService.create(config);
+    userService = UserService.create(config, mockServices.logger.mock());
     keyService = KeyService.create(config);
     userService.createUser = jest.fn().mockResolvedValue({
       userId: 'user:default/test',
@@ -54,6 +56,9 @@ describe('createRouter', () => {
       createdAt: new Date().toISOString(),
       adminGroup: 'TEST_ADMIN_GROUP',
     });
+    userService.ensureUserExistsAndAuthorized = jest
+      .fn()
+      .mockResolvedValue(undefined);
     app = wrapInOpenApiTestServer(
       express().use(
         await createRouter({
@@ -64,6 +69,63 @@ describe('createRouter', () => {
         }),
       ),
     );
+  });
+
+  describe('middleware', () => {
+    it('should pass if the user is authenticated and authorized', async () => {
+      userService.ensureUserExistsAndAuthorized = jest
+        .fn()
+        .mockResolvedValue(undefined);
+
+      const response = await request(app)
+        .post('/users')
+        .auth(mockCredentials.user.token('user:default/test'), {
+          type: 'bearer',
+        })
+        .send({
+          userId: 'user:default/test',
+        });
+
+      expect(userService.ensureUserExistsAndAuthorized).toHaveBeenCalled();
+      expect(response.status).not.toBe(401);
+      expect(response.status).not.toBe(403);
+    });
+
+    it('should return 403 if the user is not authorized', async () => {
+      userService.ensureUserExistsAndAuthorized = jest
+        .fn()
+        .mockRejectedValue(
+          new NotAllowedError('You are not authorized to access this plugin'),
+        );
+
+      const response = await request(app)
+        .post('/users')
+        .auth(mockCredentials.user.token('user:default/test'), {
+          type: 'bearer',
+        })
+        .send({
+          userId: 'user:default/test',
+        });
+
+      expect(userService.ensureUserExistsAndAuthorized).toHaveBeenCalled();
+      expect(response.status).toBe(403);
+    });
+
+    it('should return 401 if the user is not authenticated', async () => {
+      userService.ensureUserExistsAndAuthorized = jest
+        .fn()
+        .mockResolvedValue(undefined);
+
+      const response = await request(app)
+        .post('/users')
+        .set('Authorization', mockCredentials.none.header())
+        .send({
+          userId: 'user:default/test',
+        });
+
+      expect(userService.ensureUserExistsAndAuthorized).not.toHaveBeenCalled();
+      expect(response.status).toBe(401);
+    });
   });
 
   describe('/users', () => {
