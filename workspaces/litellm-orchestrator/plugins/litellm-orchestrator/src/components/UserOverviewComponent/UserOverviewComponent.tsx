@@ -30,7 +30,7 @@ import {
 } from '@backstage/core-plugin-api';
 import { User } from '../../schema/openapi/generated/models/User.model';
 import { DefaultApiClient } from '../../schema/openapi/generated/apis/Api.client';
-import { TypedResponse } from '../../schema/openapi/generated/apis/Api.client';
+import { handleApiResponse } from '../../utils/api';
 import { Grid, Typography } from '@material-ui/core';
 
 type DenseTableProps = {
@@ -75,13 +75,14 @@ export const UserOverviewComponent = () => {
   const identityApi = useApi(identityApiRef);
 
   const { value, loading, error } = useAsync(async (): Promise<User> => {
+    const identity = await identityApi.getBackstageIdentity();
     const defaultApi = new DefaultApiClient({ discoveryApi, fetchApi });
-    const response: TypedResponse<User> = await defaultApi.getUser({
+    const response = await defaultApi.getUser({
       path: {
-        userId: (await identityApi.getBackstageIdentity()).userEntityRef,
+        userId: identity.userEntityRef,
       },
     });
-    return await response.json();
+    return handleApiResponse(response);
   }, []);
 
   if (loading) {

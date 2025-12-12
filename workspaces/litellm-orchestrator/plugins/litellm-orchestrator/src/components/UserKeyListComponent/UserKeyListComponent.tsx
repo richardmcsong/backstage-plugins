@@ -47,6 +47,7 @@ import { dialogApiRef } from '@backstage/frontend-plugin-api';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { useGridRootProps } from '@mui/x-data-grid';
+import { handleApiResponse } from '../../utils/api';
 
 type DenseTableProps = {
   userKeyList: UserKeyList;
@@ -100,12 +101,13 @@ export const DenseTable = ({ userKeyList, retry }: DenseTableProps) => {
                 .userEntityRef;
 
               try {
-                await defaultApi.deleteUserKey({
+                const response = await defaultApi.deleteUserKey({
                   path: {
                     userId,
                     keyId: params.row.token,
                   },
                 });
+                await handleApiResponse(response);
                 retry();
               } catch (error) {
                 // eslint-disable-next-line no-console
@@ -150,16 +152,15 @@ export const DenseTable = ({ userKeyList, retry }: DenseTableProps) => {
                         discoveryApi,
                         fetchApi,
                       });
+                      const identity = await identityApi.getBackstageIdentity();
                       const response: TypedResponse<UserKey> =
                         await defaultApi.createUserKey({
                           body: {},
                           path: {
-                            userId: (
-                              await identityApi.getBackstageIdentity()
-                            ).userEntityRef,
+                            userId: identity.userEntityRef,
                           },
                         });
-                      const userKey = await response.json();
+                      const userKey = await handleApiResponse(response);
                       const modalResult = await dialogApi.showModal(
                         <KeyMaterialModal
                           keySecret={userKey.keySecret}
@@ -217,15 +218,14 @@ export const UserKeyListComponent = () => {
 
   const { value, loading, error, retry } =
     useAsyncRetry(async (): Promise<UserKeyList> => {
+      const identity = await identityApi.getBackstageIdentity();
       const defaultApi = new DefaultApiClient({ discoveryApi, fetchApi });
-      const response: TypedResponse<UserKeyList> = await defaultApi.getUserKeys(
-        {
-          path: {
-            userId: (await identityApi.getBackstageIdentity()).userEntityRef,
-          },
+      const response = await defaultApi.getUserKeys({
+        path: {
+          userId: identity.userEntityRef,
         },
-      );
-      return await response.json();
+      });
+      return handleApiResponse(response);
     }, []);
 
   if (loading) {
