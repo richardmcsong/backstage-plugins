@@ -1,5 +1,11 @@
 # @richardmcsong/plugin-litellm-orchestrator
 
+## 0.2.2
+
+### Patch Changes
+
+- 8bfa3e6: Include config.d.ts in the package
+
 ## 0.2.1
 
 ### Patch Changes
